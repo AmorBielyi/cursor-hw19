@@ -27,11 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("users/login").anonymous()
+                .antMatchers("/users/login").anonymous()
+                .antMatchers("/users/dummy").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                //.exceptionHandling().disable()
+                .exceptionHandling()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.NEVER);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -42,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
