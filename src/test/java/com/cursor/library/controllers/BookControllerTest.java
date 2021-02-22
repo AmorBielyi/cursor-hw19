@@ -1,7 +1,7 @@
 package com.cursor.library.controllers;
 
 import com.cursor.library.models.Book;
-import com.cursor.library.models.CreateBookDto;
+import com.cursor.library.models.BookDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,17 +15,17 @@ public class BookControllerTest extends BaseControllerTest {
 
     @Test
     public void createBookTest() throws Exception {
-        CreateBookDto createBookDto = new CreateBookDto();
-        createBookDto.setName("Cool createBookDto");
-        createBookDto.setDescription("Cool description");
-        createBookDto.setNumberOfWords(100500);
-        createBookDto.setRating(10);
-        createBookDto.setYearOfPublication(2020);
-        createBookDto.setAuthors(Arrays.asList("author1", "author2"));
+        BookDto bookDto = new BookDto();
+        bookDto.setName("Cool createBookDto");
+        bookDto.setDescription("Cool description");
+        bookDto.setNumberOfWords(100500);
+        bookDto.setRating(10);
+        bookDto.setYearOfPublication(2020);
+        bookDto.setAuthors(Arrays.asList("author1", "author2"));
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/books")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(OBJECT_MAPPER.writeValueAsString(createBookDto));
+                .content(OBJECT_MAPPER.writeValueAsString(bookDto));
 
         MvcResult result = mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isCreated())

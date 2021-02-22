@@ -5,7 +5,7 @@ import com.cursor.library.exceptions.BadIdException;
 import com.cursor.library.exceptions.BookNameIsNullException;
 import com.cursor.library.exceptions.BookNameIsTooLongException;
 import com.cursor.library.models.Book;
-import com.cursor.library.models.CreateBookDto;
+import com.cursor.library.models.BookDto;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -26,14 +26,14 @@ public class BookService {
         return bookDao.getById(bookId);
     }
 
-    public Book createBook(final CreateBookDto createBookDto) {
+    public Book createBook(final BookDto bookDto) {
         final Book newBook = new Book(UUID.randomUUID().toString());
-        newBook.setName(getValidatedBookName(createBookDto.getName()));
-        newBook.setDescription(createBookDto.getDescription());
-        newBook.setAuthors(createBookDto.getAuthors());
-        newBook.setNumberOfWords(createBookDto.getNumberOfWords());
-        newBook.setRating(createBookDto.getRating());
-        newBook.setYearOfPublication(createBookDto.getYearOfPublication());
+        newBook.setName(getValidatedBookName(bookDto.getName()));
+        newBook.setDescription(bookDto.getDescription());
+        newBook.setAuthors(bookDto.getAuthors());
+        newBook.setNumberOfWords(bookDto.getNumberOfWords());
+        newBook.setRating(bookDto.getRating());
+        newBook.setYearOfPublication(bookDto.getYearOfPublication());
 
         return bookDao.addBook(newBook);
     }

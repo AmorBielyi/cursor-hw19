@@ -2,9 +2,8 @@ package com.cursor.library.controllers;
 
 import com.cursor.library.daos.BookDao;
 import com.cursor.library.models.Book;
-import com.cursor.library.models.CreateBookDto;
+import com.cursor.library.models.BookDto;
 import com.cursor.library.services.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,15 +46,15 @@ public class BookController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Book> createBook(@RequestBody CreateBookDto createBookDto) {
+    public ResponseEntity<Book> createBook(@RequestBody BookDto bookDto) {
         Book newBook = new Book(
                 UUID.randomUUID().toString(),
-                createBookDto.getName(),
-                createBookDto.getDescription(),
-                createBookDto.getAuthors(),
-                createBookDto.getYearOfPublication(),
-                createBookDto.getNumberOfWords(),
-                createBookDto.getRating());
+                bookDto.getName(),
+                bookDto.getDescription(),
+                bookDto.getAuthors(),
+                bookDto.getYearOfPublication(),
+                bookDto.getNumberOfWords(),
+                bookDto.getRating());
         bookDao.addBook(newBook);
         ResponseEntity<Book> responseEntity = new ResponseEntity<>(newBook, HttpStatus.CREATED);
         return responseEntity;
