@@ -7,6 +7,7 @@ import com.cursor.library.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured("ROLE_READ")
     public ResponseEntity<List<Book>> getAll(
             @RequestParam(value = "sortBy", defaultValue = "byName", required = false) String sortBy,
             @RequestParam(value = "limit", defaultValue = "10", required = false) String limit,
@@ -46,6 +48,7 @@ public class BookController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @Secured("ROLE_WRITE")
     public ResponseEntity<Book> createBook(@RequestBody BookDto bookDto) {
         Book newBook = new Book(
                 UUID.randomUUID().toString(),
@@ -56,11 +59,11 @@ public class BookController {
                 bookDto.getNumberOfWords(),
                 bookDto.getRating());
         bookDao.addBook(newBook);
-        ResponseEntity<Book> responseEntity = new ResponseEntity<>(newBook, HttpStatus.CREATED);
-        return responseEntity;
+        return new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/books/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured("ROLE_READ")
     public ResponseEntity<Book> getById(
             @PathVariable(value = "bookId") String bookId
     ) {
@@ -72,6 +75,7 @@ public class BookController {
     }
 
     @DeleteMapping(value = "/books/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured("ROLE_DELETE")
     public ResponseEntity<Book> deleteById(
             @PathVariable(value = "bookId") String bookId
     ) {
