@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
+@Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,7 +24,8 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
